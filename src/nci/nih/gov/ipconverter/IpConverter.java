@@ -20,22 +20,20 @@ public class IpConverter {
 	}
 	
 	public void run(String ... args){
+		String accessPath = "/Users/bauerhs/git/IPtoTLDomain/src/nci/nih/gov/ipconverter/access.sample.log";
+		String filePath = "myFile.txt";
 		ProcessLog processor = new ProcessLog();
 		CustomLog log = new CustomLog();
-		Stream<String> lines = processor.readLogLine("/Users/bauerhs/git/IPtoTLDomain/src/nci/nih/gov/ipconverter/access.sample.log");
-//		lines.map(x -> log.createLogOutPutLineFromHashTable(processor, x)).forEach(y -> System.out.println(y));
+		Stream<String> lines = processor.readLogLine(args.length == 0?accessPath:args[0]);
+
 		Hashtable<String, CustomLog.IpConsolidated> consolidated = new Hashtable<String, CustomLog.IpConsolidated>();
 		lines.forEach(x -> log.mapLogLineToConsolidated(consolidated, x));
-//		consolidated.values().stream().map(x -> log.createLogOutPutLineFromHashTable(x)).forEach(y -> System.out.println(y));
-//		consolidated.values().stream().forEach(x -> System.out.println("IP: " + x.ip + " TimeStamp: " + x.tmstp + " Size: " + x.size));
-//		 new ProcessLog().readLogLineToTestOutput("/Users/bauerhs/eclipse-workspace/IPtoTLDomain/src/nci/nih/gov/ipconverter/access.sample.log");//.forEach(x -> System.out.println(x));
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("myFile.txt")))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(args.length == 0?filePath:args[1])))) {
 			consolidated.values().stream().map(x -> log.createLogOutPutLineFromHashTable(x)).forEach(y -> {
 				try {
 					writer.write(y);
 					writer.newLine();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			});

@@ -13,7 +13,6 @@ public class CustomLog {
    		}
   		
    		public IpConsolidated() {
-			// TODO Auto-generated constructor stub
 		}
 
 		String ip;
@@ -57,14 +56,6 @@ public class CustomLog {
    }
    
    
-   public Stream<String> getDistinctIPsWithConsolidatedSizeSums(Stream<String> logStream, ProcessLog processor){
-
-   //	logStream.map(x -> mapLogStreamToConsolidatedIP(x));
-   	
-   	Stream<String> modLogStream = null;
-		return modLogStream;
-   }
-   
    public void  mapLogLineToConsolidated(Hashtable<String, IpConsolidated> consolidatedIPs, String logLine) {
 	   ProcessLog processor = new ProcessLog();
 	   IpConsolidated consolidated = new IpConsolidated();
@@ -79,6 +70,7 @@ public class CustomLog {
    }
    
    public static void main(String ... args) {
+	   ProcessLog processor = new ProcessLog();
 	   System.out.println(new CustomLog().processDomainFromResolvedIP("crawl-66-249-75-92.googlebot.com."));	   
    }
 }

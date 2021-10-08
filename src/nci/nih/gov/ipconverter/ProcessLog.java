@@ -110,7 +110,9 @@ public class ProcessLog {
 
     
     public String getIpFromLine(String line) {
-    	if(line == null || line.equals("")) { return "NOIP";}
+    	if(line == null 
+    			|| line.equals("") 
+    			|| isBot(line)) { return "NOIP";}
     	String ip = null;
         final String regex = 
         		"^([\\d\\/.]+)";
@@ -142,12 +144,14 @@ public class ProcessLog {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}}}
+			//Filter raw ips
+			if(output != null && (output.equals(IP + ".")  || output.equals(IP))) {return null;}
             return output;
     	}
     
-    public String cleanBotsFromLine(String domain) {
-    	if(domain.contains("bot") || domain.contains("crawl")) {return "";}
-    	return domain;
+    public boolean isBot(String domain) {
+    	if(domain.contains("bot") || domain.contains("crawl")) {System.out.println("Is bot"); return true;}
+    	return false;
     }
 
 	public String whois(String IP) {
